@@ -111,7 +111,7 @@ data = pd.read_csv('processed_data.csv', sep=';')
 
 # make a multiselection box for countries to compare
 st.sidebar.subheader('Countries to compare')
-choice = st.sidebar.multiselect('Select countries',
+choice = st.sidebar.multiselect('Select countries from a dropdown menu or start typing',
                                 tuple(list_countries['TableName']
                                       .sort_values()), key='0')
 
@@ -121,12 +121,12 @@ st.title('Role of Nuclear Power in Climate Change Mitigation')
 # add markdown text under the dashboard title
 st.markdown('Bubble size corresponds to electricity consumption per capita')
 # plot selected countries using plotly histogram chart
-submit = st.button('run visualization')
+submit = st.sidebar.button('run visualization')
 
 if (submit == True) and (len(choice) > 0):
     # get data based on selection
     choice_country = list_countries[list_countries.TableName.isin(choice)]
-
+    @st.cache
     def choice(data, countries=list_countries):
         dataset = pd.DataFrame()
         for name in countries['TableName']:
